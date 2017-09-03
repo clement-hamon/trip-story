@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { StoryService } from '../../services/story.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,8 +11,9 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
 
   private user:Object;
+  public stories:Array<Object> = [];
 
-  constructor( private authService:AuthService, private router:Router ) { }
+  constructor( private authService:AuthService, private storyService:StoryService ) { }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
@@ -21,6 +23,14 @@ export class ProfileComponent implements OnInit {
           console.log(err);
           return false;
     });
+    this.storyService.getAllUserStories().subscribe( data => {
+      if(data){
+        this.stories = data.stories;
+        console.log(this.stories);
+      }
+    });
   }
+
+
 
 }

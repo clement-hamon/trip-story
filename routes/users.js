@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 const User = require('../models/users');
+const Story = require('../models/stories');
 const configDb = require('../config/database');
 
 
@@ -61,6 +62,23 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), function(
     res.json({
         user: req.user
     })
+});
+
+
+/**
+ * Get all the stories by user
+ */
+router.get('/:user_id/stories', function(req,res,next) {
+    console.log(req.params.user_id);
+    Story.getAllByAuthorId(req.params.user_id, (err, stories) => {
+        if (!stories) {
+            return res.json({success: false, msg: 'no Stories found'});
+        }
+        return res.json({
+            success: true,
+            stories: stories
+        })
+    });
 });
 
 module.exports = router;

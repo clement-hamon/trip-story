@@ -4,4 +4,8 @@
     <li class="list-item">email: {{ user.email }}</li>
     <li class="list-item">name: {{ user.name }}</li>
   </ul>
+  Stories
+  <ul>
+    <li *ngFor="let story of stories">{{ story.title }}</li>
+  </ul>
 </div>

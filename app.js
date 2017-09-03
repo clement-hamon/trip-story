@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 
 const users = require('./routes/users');
+const stories = require('./routes/stories');
 const config = require('./config/database');
 const passportAuth = require('./config/passport');
 
@@ -48,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // path is a native nod
 
 // user routing
 app.use('/users', users);
+app.use('/stories', stories);
 
 // index route
 app.get("/", function(req, res){

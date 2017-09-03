@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import { StoryService } from '../../services/story.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 const ol_Map = require('ol/map').default;
 const ol_layer_Tile = require('ol/layer/tile').default;
@@ -39,6 +41,8 @@ export class MapComponent implements OnInit {
     });
 
     public coords: string;
+    public title: string;
+    public text: string;
 
     points: Array<any> = [];
     msg_el: any;
@@ -64,7 +68,7 @@ export class MapComponent implements OnInit {
         })
     };
 
-    constructor() {
+    constructor(private storyService:StoryService, private flashMessagesService:FlashMessagesService) {
     }
 
     ngOnInit() {
@@ -173,7 +177,16 @@ export class MapComponent implements OnInit {
     };
 
     saveMap() {
-        console.log(this.coords);
+        const story = {
+            title: 'hello',
+            text: 'hey salut vous',
+            coordinates: this.coords
+        }
+        this.storyService.saveStory(story).subscribe(data => {
+            if (data) {
+                this.flashMessagesService.show('Successfully registered',{cssClass:'alert-success', timeout:3000});
+            }
+        });
     }
 }
 
